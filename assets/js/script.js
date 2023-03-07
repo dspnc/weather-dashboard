@@ -30,11 +30,24 @@ var getWeather = function(city) {
         })
             .then(function (data2) {
                 console.log(data2)
-                currentCityEl.innerHTML = data2.city.name
+                currentCityEl.innerHTML = data2.city.name + " (" + dayjs().format('MMM D, YYYY') + ")"
                 currentIconEl.setAttribute("src", "https://openweathermap.org/img/wn/"+data2.list[0].weather[0].icon+"@2x.png")
                 currentTempEl.innerHTML = Math.floor(((data2.list[0].main.temp) - 273.15) * 1.8 + 32) + " &#176F"
                 currentHumidEl.innerHTML = data2.list[0].main.humidity + "%"
                 currentWindEl.innerHTML = data2.list[0].wind.speed + " MPH"
+
+                for (var i=0; i<fivedayEls.length; i++) {
+                    fivedayEls[i].innerHTML = "";
+                    //index is used to parse through the 40 values in the list array for the data object
+                    //each index in the array is 3 hours apart, and 3 x 8 = 24.
+                    var index = i * 8;
+                    var fivedayDateEl = document.createElement('p');
+                    fivedayDateEl.textContent = dayjs.unix(data2.list[index].dt).format('MMM D, YYYY')
+                    fivedayEls[i].append(fivedayDateEl)
+                    var fivedayIconEl = document.createElement("img")
+                    fivedayIconEl.setAttribute("src", "https://openweathermap.org/img/wn/"+data2.list[index].weather[0].icon+"@2x.png")
+                    fivedayEls[i].append(fivedayIconEl);
+                }
 
 
 
