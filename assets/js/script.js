@@ -1,6 +1,7 @@
 var apiKey = "dc071bf93c64cc5743355598383576f9";
 var cityInput = document.getElementById("new-city");
 var searchBtn = document.getElementById("search-btn");
+var clearHistoryBtn = document.getElementById("clear-search");
 var searchHist = document.getElementById("search-history");
 var currentWeather = document.getElementById("current-weather")
 var currentCityEl = document.getElementById("current-city");
@@ -49,7 +50,7 @@ var saveCity = function(city){
         storageHistory = [];
     }
     storageHistory.push(city)
-    console.log(storageHistory)
+    //console.log(storageHistory)
     localStorage.setItem("city", JSON.stringify(storageHistory))
     cityInput.value = "";
     var searchedCity = document.createElement("input")
@@ -64,7 +65,7 @@ var saveCity = function(city){
 //load local storage
 var loadStorage = function(){
     storageHistory = JSON.parse(localStorage.getItem("city"));
-    console.log(storageHistory)
+    //console.log(storageHistory)
     if (storageHistory == null) {
         return;
     }
@@ -86,11 +87,23 @@ var loadStorage = function(){
 
 searchBtn.addEventListener('click', function(event) {
     event.preventDefault();
-    currentWeather.classList.remove("d-none")
-    fivedayHeader.classList.remove("d-none")
-    getWeather(cityInput.value)
-    saveCity(cityInput.value)
+    if (cityInput.value.trim() == ""){
+        return;
+    }
+    currentWeather.classList.remove("d-none");
+    fivedayHeader.classList.remove("d-none");
+    getWeather(cityInput.value);
+    saveCity(cityInput.value);
 
+})
+
+clearHistoryBtn.addEventListener('click', function(event){
+    event.preventDefault();
+    localStorage.clear();
+    storageHistory = [];
+    searchHist.innerHTML = "";
+    currentWeather.classList.add("d-none");
+    fivedayHeader.classList.add("d-none");
 })
 
 loadStorage();

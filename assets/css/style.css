@@ -12,4 +12,18 @@ header {
 
 #city-lookup {
     margin-left: 20px;
+    margin-right: 5px;
+}
+
+#search-history {
+    margin: 50px;
+}
+
+#new-city {
+    margin-right: 5px;
+    padding: 5px
+}
+
+#clear-search {
+    display: inline-block;
 }
