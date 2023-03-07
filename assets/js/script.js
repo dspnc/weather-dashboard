@@ -14,7 +14,7 @@ var fivedayEls = document.querySelectorAll(".fiveday");
 var forecastContainer = document.getElementById('forecast')
 var storageHistory = [];
 
-//fetch function
+//fetch function to retrieve lat and lon from the city name
 var getWeather = function(city) {
     var geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct?q=+"+city+"&limit=1&appid="+apiKey;
     fetch(geoCodingUrl)
@@ -24,12 +24,14 @@ var getWeather = function(city) {
       .then(function (data) {
         var cityLat = data[0].lat
         var cityLon = data[0].lon
+        //fetch function to return the full weather forecast data with the lat and lon
         var searchUrl = "https://api.openweathermap.org/data/2.5/forecast?lat="+cityLat+"&lon="+cityLon+"&appid="+apiKey;
         fetch(searchUrl)
         .then(function (response2) {
             return response2.json()
         })
             .then(function (data2) {
+                //current weather conditions for top card
                 console.log(data2)
                 currentCityEl.innerHTML = data2.city.name + " (" + dayjs().format('MMM D, YYYY') + ")"
                 currentIconEl.setAttribute("src", "https://openweathermap.org/img/wn/"+data2.list[0].weather[0].icon+"@2x.png")
@@ -37,10 +39,11 @@ var getWeather = function(city) {
                 currentHumidEl.innerHTML = data2.list[0].main.humidity + "%"
                 currentWindEl.innerHTML = data2.list[0].wind.speed + " MPH"
 
+                //loops through five times to create each forecast element
                 for (var i=0; i<fivedayEls.length; i++) {
                     fivedayEls[i].innerHTML = "";
-                    //index is used to parse through the 40 values in the list array for the data object
-                    //each index in the array is 3 hours apart, and 3 x 8 = 24.
+                    //the below index is used to parse through the 40 values in the list array for the data object
+                    //each index in the array is 3 hours apart, and 3 x 8 = 24, hence the * 8.
                     var index = i * 8;
                     var fivedayDateEl = document.createElement('p');
                     fivedayDateEl.textContent = dayjs.unix(data2.list[index].dt).format('MMM D, YYYY')
@@ -58,16 +61,11 @@ var getWeather = function(city) {
                     fivedayWindEl.innerHTML = "Wind: " + data2.list[index].wind.speed + " MPH"
                     fivedayEls[i].append(fivedayWindEl)
                 }
-
-
-
             })
         })
 }
 
-//display weather data
-
-//set local storage
+//set local storage and add history items to buttons with listeners on the page
 var saveCity = function(city){
     if (storageHistory == null){
         storageHistory = [];
@@ -78,14 +76,14 @@ var saveCity = function(city){
     cityInput.value = "";
     var searchedCity = document.createElement("input")
     searchedCity.setAttribute("type", "button")
-    searchedCity.setAttribute("class", "d-block")
+    searchedCity.setAttribute("class", "d-block p-2 m-2")
     searchedCity.setAttribute("value", city)
     searchedCity.addEventListener("click", function () {
         getWeather(searchedCity.value)
     })
     searchHist.append(searchedCity)
-} //}
-//load local storage
+} 
+//load local storage and display the buttons from storage
 var loadStorage = function(){
     storageHistory = JSON.parse(localStorage.getItem("city"));
     //console.log(storageHistory)
@@ -95,7 +93,7 @@ var loadStorage = function(){
     for (var i=0; i<storageHistory.length; i++) {
         var searchedCity = document.createElement("input")
         searchedCity.setAttribute("type", "button")
-        searchedCity.setAttribute("class", "d-block")
+        searchedCity.setAttribute("class", "d-block p-2 m-2")
         searchedCity.setAttribute("value", storageHistory[i])
         searchedCity.addEventListener("click", function () {
             getWeather(this.value)
@@ -107,7 +105,8 @@ var loadStorage = function(){
    
 }
 
-
+//removes the hidden display class from the weather data divs when clicked
+//gets the weather using the input value and saves it to storage
 searchBtn.addEventListener('click', function(event) {
     event.preventDefault();
     if (cityInput.value.trim() == ""){
@@ -121,6 +120,7 @@ searchBtn.addEventListener('click', function(event) {
 
 })
 
+//clears local storage and the history buttons upon click, also hides the weather data divs
 clearHistoryBtn.addEventListener('click', function(event){
     event.preventDefault();
     localStorage.clear();
@@ -131,4 +131,5 @@ clearHistoryBtn.addEventListener('click', function(event){
     forecastContainer.classList.add("d-none");
 })
 
+//loads storage when page is first loaded
 loadStorage();

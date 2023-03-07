@@ -3,7 +3,7 @@ body {
 }
 
 header {
-    background-image: linear-gradient(to right, white, navy );
+    background-image: linear-gradient(to right, white, darkblue);
     color: aliceblue;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -16,7 +16,13 @@ header {
 }
 
 #search-history {
-    margin: 50px;
+    margin-top: 30px;
+    margin-right: 10px;
+   
+}
+
+#search-history input {
+    width: 100%;
 }
 
 #new-city {
@@ -25,5 +31,42 @@ header {
 }
 
 #clear-search {
+    margin-top: 5px;
     display: inline-block;
+    background-color: darkblue;
+    color: aliceblue;
+}
+
+#fiveday-header {
+    padding-top: 10px;
+    color: navy;
+    margin-top: 20%;
+}
+
+#search-btn {
+    margin-top: 5px;;
+    background-color: darkblue;
+    color: aliceblue;
+}
+
+h4 {
+    color: darkblue;
+}
+
+.fiveday {
+    background-color: navy;
+    margin: 5px;
+    color: aliceblue;
+}
+
+#current-weather{
+    background-image: linear-gradient(to right, navy, aliceblue);
+    margin-left: 20px;
+    margin-top: 30px;
+    color: aliceblue;
+    margin-bottom: 50px;
+}
+
+.d-block {
+    color: navy;
 }
