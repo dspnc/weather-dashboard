@@ -16,7 +16,7 @@ var storageHistory = [];
 
 //fetch function to retrieve lat and lon from the city name
 var getWeather = function(city) {
-    var geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct?q=+"+city+"&limit=1&appid="+apiKey;
+    var geoCodingUrl = "https://api.openweathermap.org/geo/1.0/direct?q=+"+city+"&limit=1&appid="+apiKey;
     fetch(geoCodingUrl)
     .then(function (response) {
         return response.json();
