@@ -11,6 +11,7 @@ var currentHumidEl = document.getElementById("current-humidity");
 var currentWindEl = document.getElementById("current-wind");
 var fivedayHeader = document.getElementById("fiveday-header");
 var fivedayEls = document.querySelectorAll(".fiveday");
+var forecastContainer = document.getElementById('forecast')
 var storageHistory = [];
 
 //fetch function
@@ -47,6 +48,15 @@ var getWeather = function(city) {
                     var fivedayIconEl = document.createElement("img")
                     fivedayIconEl.setAttribute("src", "https://openweathermap.org/img/wn/"+data2.list[index].weather[0].icon+"@2x.png")
                     fivedayEls[i].append(fivedayIconEl);
+                    var fivedayTempEl = document.createElement('p');
+                    fivedayTempEl.innerHTML = "Temp: " +Math.floor(((data2.list[index].main.temp) - 273.15) * 1.8 + 32) + " &#176F"
+                    fivedayEls[i].append(fivedayTempEl)
+                    var fivedayHumidityEl = document.createElement('p')
+                    fivedayHumidityEl.innerHTML = "Humidity: " + data2.list[index].main.humidity + "%"
+                    fivedayEls[i].append(fivedayHumidityEl)
+                    var fivedayWindEl = document.createElement('p')
+                    fivedayWindEl.innerHTML = "Wind: " + data2.list[index].wind.speed + " MPH"
+                    fivedayEls[i].append(fivedayWindEl)
                 }
 
 
@@ -105,6 +115,7 @@ searchBtn.addEventListener('click', function(event) {
     }
     currentWeather.classList.remove("d-none");
     fivedayHeader.classList.remove("d-none");
+    forecastContainer.classList.remove("d-none")
     getWeather(cityInput.value);
     saveCity(cityInput.value);
 
@@ -117,6 +128,7 @@ clearHistoryBtn.addEventListener('click', function(event){
     searchHist.innerHTML = "";
     currentWeather.classList.add("d-none");
     fivedayHeader.classList.add("d-none");
+    forecastContainer.classList.add("d-none");
 })
 
 loadStorage();
