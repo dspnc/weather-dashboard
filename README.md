@@ -13,6 +13,10 @@ This project solves the problem of generating a weather forecast report for any 
 - What did you learn?
 I learned how to review API documentation to see what data is included in the JSON API response file, and then to edit query parameters in the API request URL to get specific data points.
 
+Technologies Used:
+-Bootstrap CSS
+-Day JS for unix conversion
+
 ## License
 
 MIT License
